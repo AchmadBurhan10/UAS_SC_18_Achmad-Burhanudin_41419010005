@@ -63,9 +63,9 @@ bot.on('message', (msg) => {
 r.get('/predict/:x1/:x2/:x3', function(req, res, next) {
     model.predict(
         [
-            parseFloat(req.params.x1),// string float
-            parseFloat(req.params.x2),
-            parseFloat(req.params.x3)
+            parsefloat(req.params.x1),// string float
+            parsefloat(req.params.x2),
+            parsefloat(req.params.x3)
         ]    
     ).then((jres)=>{
         res.json(jres);
