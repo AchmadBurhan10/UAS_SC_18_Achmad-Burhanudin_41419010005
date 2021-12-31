@@ -36,24 +36,24 @@ bot.on('message', (msg) => {
         x2 = s[1]
         x3 = s[2]
         model.predict(
-            [ 
-                parseFloat(s[0]), // string float
+            [
+                parseFloat(s[0]), // string to float
                 parseFloat(s[1]),
                 parseFloat(s[2])
             ]
         ).then((jres)=>{
-            bot.sendmessage(
-                msg.chat.id,
-                `Nilai y1 yang diprediksi adalah ${jres[0]}`
-            );  
-            bot.sendmessage(
-                msg.chat.id,
-                `Nilai y2 yang diprediksi adalah ${jres[1]}`
-            );
-            bot.sendmessage(
-                msg.chat.id,
-                `Nilai y3 yang diprediksi adalah ${jres[2]}`
-            );
+                bot.sendMessage(
+                    msg.chat.id,
+                    `Prediksi y1 Tegangan ${jres[0]}`
+                );
+                bot.sendMessage(
+                    msg.chat.id,
+                    `nilai y2 yang diprediksi adalah ${jres[1]}`
+                ); 
+                bot.sendMessage(
+                    msg.chat.id,
+                    `Prediksi y3 ${jres[2]}`
+                );
         })
     }else{
         state = 0;
