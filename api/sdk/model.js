@@ -1,77 +1,44 @@
-var express = require('express');
-var r = express.Router();
+const tf = require('@tensorflow/tfjs-node');
 
-// load pre-trained model
-const model = require('./sdk/model.js');
+function normalized(data){ // x1 & x2 & x3
+    x1 = (data[0] - 42.8622449) / 10.5729821
+    x2 = (data[1] - 88.5989796) / 19.1055719
+    x3 = (data[2] - 143.187755) / 22.889026
+    return [x1, x2, x3]
+}
 
-// Bot Setting
-const TelegramBot = require('node-telegram-bot-api');
-const token = '5073546476:AAG4rie_ytVRpRfHLYNLt0cDz_YcjDidZAE'
-const bot = new TelegramBot(token, {polling: true});
+function denormalized(data){
+    y1 = (data[0] * 74.8071429) + 9.17854618
+    y2 = (data[1] * 49.7959184) + 14.8205191
+    y3 = (data[2] * 160.082653) + 23.891744
+    return [y1, y2, y3]
+}
 
 
-// bots
-bot.onText(/\/start/, (msg) => { 
-    console.log(msg)
-    bot.sendMessage(
-        msg.chat.id,
-        `halo selamat datang ! ${msg.chat.first_name}, welcome...\n
-        click /predict`
-    );   
-});
-// input requires x1 , x2 dan x3
-state = 0;
-bot.onText(/\/predict/, (msg) => { 
-    bot.sendMessage(
-        msg.chat.id,
-        `Masukan nilai x1|x2|x3 contohnya 8|8|8`
-    );
-    state = 1;
-});
+async function predict(data){
+    let in_dim = 3;
+    
+    data = normalized(data);
+    shape = [1, in_dim];
 
-bot.on('message', (msg) => (
-    if(state == 1){
-        s = msg.text.split("|");
-        x1 = s[0]
-        x2 = s[1]
-        x3 = s[2]
-        model.predict(
-            [ 
-                parsefloat(s[0]), // string float
-                parsefloat(s[1]),
-                parsefloat(s[2])
-           
-            ]
-        ).then((jres)=>{
-            bot.sendmessage(
-                msg.chat.id,
-                'Nilai y1 yang diprediksi adalah ${jres[0])'
-            );  
-            bot.sendmessage(
-                msg.chat.id,
-                'Nilai y2 yang diprediksi adalah ${jres[1])'
-            );
-            bot.sendmessage(
-                msg.chat.id,
-                'Nilai y3 yang diprediksi adalah ${jres[2])'
-             );
-        })
-    }else{
-        state = 0
+    tf_data = tf.tensor2d(data, shape);
+
+    try{
+        // path load in public access => github
+        const path = 'https://raw.githubusercontent.com/AchmadBurhan10/UAS_SC_18_Achmad-Burhanudin_41419010005/main/public/ex_model/model.json';
+        const model = await tf.loadGraphModel(path);
+        
+        predict = model.predict(
+                tf_data
+        );
+        result = predict.dataSync();
+        return denormalized( result );
+        
+    }catch(e){
+      console.log(e);
     }
-})
+}
 
-// routers
-r.get('prediksi/:x1/:x2/:x3', function(req, res, next) {
-    model.prediksi(
-        [
-            parsefloat(req.params.x1),// string float
-            parsefloat(req.params.x2),
-            parsefloat(req.params.x3)
-        ]    
-    }.then((jres)=>{
-        res.json(jres);
-    })
-});
-
-module.exports = r;
+module.exports = {
+    predict: predict 
+}
