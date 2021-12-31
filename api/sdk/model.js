@@ -1,32 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@AchmadBurhan10 
-AchmadBurhan10
-/
-UAS_SC_18_Achmad-Burhanudin_41419010005
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-UAS_SC_18_Achmad-Burhanudin_41419010005/api/index.js /
-@AchmadBurhan10
-AchmadBurhan10 Update index.js
-Latest commit 3f0ea51 2 hours ago
- History
- 1 contributor
-78 lines (69 sloc)  1.8 KB
-   
 var express = require('express');
 var r = express.Router();
 
@@ -45,12 +16,12 @@ bot.onText(/\/start/, (msg) => {
     bot.sendMessage(
         msg.chat.id,
         `halo selamat datang ! ${msg.chat.first_name}, welcome...\n
-        click /prediksi`
+        click /predict`
     );   
 });
 // input requires x1 , x2 dan x3
 state = 0;
-bot.onText(/\/prediksi/, (msg) => { 
+bot.onText(/\/predict/, (msg) => { 
     bot.sendMessage(
         msg.chat.id,
         `Masukan nilai x1|x2|x3 contohnya 8|8|8`
@@ -64,14 +35,14 @@ bot.on('message', (msg) => (
         x1 = s[0]
         x2 = s[1]
         x3 = s[2]
-        model.prediksi(
+        model.predict(
             [ 
                 parsefloat(s[0]), // string float
                 parsefloat(s[1]),
                 parsefloat(s[2])
            
             ]
-        ).them((jres)=>{
+        ).then((jres)=>{
             bot.sendmessage(
                 msg.chat.id,
                 'Nilai y1 yang diprediksi adalah ${jres[0])'
@@ -103,4 +74,4 @@ r.get('prediksi/:x1/:x2/:x3', function(req, res, next) {
     })
 });
 
-module.exports = r:
+module.exports = r;
