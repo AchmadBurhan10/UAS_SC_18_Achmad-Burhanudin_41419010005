@@ -54,7 +54,7 @@ bot.on('message', (msg) => {
             bot.sendmessage(
                 msg.chat.id,
                 `Nilai y3 yang diprediksi adalah ${jres[2]}`
-             );
+            );
         })
     }else{
         state = 0
