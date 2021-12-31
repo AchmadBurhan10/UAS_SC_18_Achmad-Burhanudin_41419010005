@@ -16,12 +16,12 @@ bot.onText(/\/start/, (msg) => {
     bot.sendMessage(
         msg.chat.id,
         `halo selamat datang ! ${msg.chat.first_name}, welcome...\n
-        click /prediksi`
+        click /predict`
     );   
 });
 // input requires x1 , x2 dan x3
 state = 0;
-bot.onText(/\/prediksi/, (msg) => { 
+bot.onText(/\/predict/, (msg) => { 
     bot.sendMessage(
         msg.chat.id,
         `Masukan nilai x1|x2|x3 contohnya 8|8|8`
@@ -35,14 +35,14 @@ bot.on('message', (msg) => (
         x1 = s[0]
         x2 = s[1]
         x3 = s[2]
-        model.prediksi(
+        model.predict(
             [ 
                 parsefloat(s[0]), // string float
                 parsefloat(s[1]),
                 parsefloat(s[2])
            
             ]
-        ).them((jres)=>{
+        ).then((jres)=>{
             bot.sendmessage(
                 msg.chat.id,
                 'Nilai y1 yang diprediksi adalah ${jres[0])'
@@ -62,7 +62,7 @@ bot.on('message', (msg) => (
 })
 
 // routers
-r.get('prediksi/:x1/:x2/:x3', function(req, res, next) {
+r.get('predict/:x1/:x2/:x3', function(req, res, next) {
     model.prediksi(
         [
             parsefloat(req.params.x1),// string float
@@ -74,5 +74,4 @@ r.get('prediksi/:x1/:x2/:x3', function(req, res, next) {
     })
 });
 
-module.exports = r:
-
+module.exports = r;
