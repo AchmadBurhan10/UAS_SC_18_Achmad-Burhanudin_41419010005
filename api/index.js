@@ -59,7 +59,6 @@ bot.on('message', (msg) => {
         state = 0;
     }
 })
-
 // routers
 r.get('/predict/:x1/:x2/:x3', function(req, res, next) {
     model.predict(
