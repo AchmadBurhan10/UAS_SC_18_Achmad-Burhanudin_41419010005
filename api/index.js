@@ -68,9 +68,9 @@ r.get('predict/:x1/:x2/:x3', function(req, res, next) {
             parsefloat(req.params.x1),// string float
             parsefloat(req.params.x2),
             parsefloat(req.params.x3)
-        ])    
-    }.then((jres)=>{
+        ]    
+    ).then((jres)=>{
         res.json(jres);
     })
-);
+});
 module.exports = r;
