@@ -29,7 +29,7 @@ bot.onText(/\/predict/, (msg) => {
     state = 1;
 });
 
-bot.on('message', (msg) => (
+bot.on('message', (msg) => {
     if(state == 1){
         s = msg.text.split("|");
         x1 = s[0]
@@ -45,15 +45,15 @@ bot.on('message', (msg) => (
         ).then((jres)=>{
             bot.sendmessage(
                 msg.chat.id,
-                'Nilai y1 yang diprediksi adalah ${jres[0])'
+                'Nilai y1 yang diprediksi adalah ${jres[0]}'
             );  
             bot.sendmessage(
                 msg.chat.id,
-                'Nilai y2 yang diprediksi adalah ${jres[1])'
+                'Nilai y2 yang diprediksi adalah ${jres[1]}'
             );
             bot.sendmessage(
                 msg.chat.id,
-                'Nilai y3 yang diprediksi adalah ${jres[2])'
+                'Nilai y3 yang diprediksi adalah ${jres[2]}'
              );
         })
     }else{
