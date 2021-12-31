@@ -44,15 +44,15 @@ bot.on('message', (msg) => {
         ).then((jres)=>{
                 bot.sendMessage(
                     msg.chat.id,
-                    `Prediksi y1 Tegangan ${jres[0]}`
+                    `Nilai prediksi y1 adalah ${jres[0]}`
                 );
                 bot.sendMessage(
                     msg.chat.id,
-                    `nilai y2 yang diprediksi adalah ${jres[1]}`
+                    `Nilai prediksi y2 adalah ${jres[1]}`
                 ); 
                 bot.sendMessage(
                     msg.chat.id,
-                    `Prediksi y3 ${jres[2]}`
+                    `Nilai prediksi y3 adalah ${jres[2]}`
                 );
         })
     }else{
