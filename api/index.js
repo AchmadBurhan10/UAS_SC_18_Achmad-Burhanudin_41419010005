@@ -63,7 +63,7 @@ bot.on('message', (msg) => (
 
 // routers
 r.get('predict/:x1/:x2/:x3', function(req, res, next) {
-    model.prediksi(
+    model.predict(
         [
             parsefloat(req.params.x1),// string float
             parsefloat(req.params.x2),
