@@ -17,10 +17,10 @@ bot.onText(/\/start/, (msg) => {
         msg.chat.id,
         `halo selamat datang ! ${msg.chat.first_name}, welcome...\n
         click /predict`
-    );   
+    ); 
+    state = 0;
 });
 // input requires x1 , x2 dan x3
-state = 0;
 bot.onText(/\/predict/, (msg) => { 
     bot.sendMessage(
         msg.chat.id,
