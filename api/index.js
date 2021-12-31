@@ -15,29 +15,43 @@ bot.onText(/\/start/, (msg) => {
     console.log(msg)
     bot.sendMessage(
         msg.chat.id,
-        `hello ${msg.chat.first_name}, welcome...\n
-        click /menu to main menu`
+        `halo selamat datang ! ${msg.chat.first_name}, welcome...\n
+        click /prediksi`
     );   
 });
-
-bot.onText(/\/menu/, (msg) => { 
-    console.log(msg)
+// input requires x1 , x2 dan x3
+state = 0;
+bot.onText(/\/prediksi/, (msg) => { 
     bot.sendMessage(
         msg.chat.id,
-        `this is your main menu`
-    );   
+        `Masukan nilai x1|x2|x3 contohnya 8|8|8`
+    );
+    state = 1;
 });
 
-// routers
-r.get('/prediction/:i/:r', function(req, res, next) {    
-    model.predict(
-        [
-            parseFloat(req.params.i), // string to float
-            parseFloat(req.params.r)
+bot.on('message', (msg) => (
+    if(state == 1)(
+    s = msg.text.split("|");
+    i = s[0]
+    v = s[1]
+    q = s[2]
+    model.prediksi(
+        [ 
+            parsefloat(s[0]), // string float
+            parsefloat(s[1]),
+            parsefloat(s[2])
+           
         ]
-    ).then((jres)=>{
-        res.json(jres);
-    })
-});
-
-module.exports = r;
+    ).them((jres)=>(
+        bot.sendmessage(
+            msg.chat.id,
+            'Nilai y1 yang diprediksi adalah $(jres[0])'
+        );
+        bot.sendmessage(
+            msg.chat.id,
+            'Nilai y2 yang diprediksi adalah $(jres[1])'
+        );
+        bot.sendmessage(
+            msg.chat.id,
+            'Nilai y3 yang diprediksi adalah $(jres[2])'
+        
